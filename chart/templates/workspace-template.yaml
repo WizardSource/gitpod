@@ -10,6 +10,19 @@ spec:
   imagePullSecrets:
   - name: {{ toYaml $comp.pullSecret.secretName }}
   {{- end }}
+  {{- if .gp.caBundleSecretName }}
+  containers:
+  - name: workspace
+    volumeMounts:
+{{ include "gitpod.caBundleVolumeMount" . | indent 4 }}
+    env:
+    - name: NODE_EXTRA_CA_CERTS
+      value: /e/etc/ssl/certs/ca-cert-gitpod.crt
+    - name: REQUESTS_CA_BUNDLE
+      value: /e/etc/ssl/certs/ca-cert-gitpod.crt
+  volumes:
+{{ include "gitpod.caBundleVolume" .root | indent 2 }}
+  {{- end }}
 {{- end }}
 {{- define "coreWorkspaceAffinity" -}}
 {{- $comp := .comp -}}

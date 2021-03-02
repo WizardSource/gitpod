@@ -21,6 +21,7 @@ hostname: localhost
 ingressMode: hosts
 certificatesSecret:
   secretName: https-certificates
+caBundleSecretName:
 
 imagePrefix: gcr.io/gitpod-io/self-hosted/
 installation:
